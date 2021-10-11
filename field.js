@@ -1,6 +1,6 @@
 export class Field {
-   #x
-   #y
+   /** @type {Number} */ #x
+   /** @type {Number} */ #y
 
    /**
     * @param {Number} column
@@ -11,6 +11,7 @@ export class Field {
       this.#y = row
    }
 
+   /** @return {Field} */
    copy () {
       return new Field(this.#x, this.#y)
    }
@@ -44,10 +45,12 @@ export class Field {
       return this.id
    }
 
+   /** @return {Number} */
    get column () {
       return this.#x
    }
 
+   /** @return {Number} */
    get row () {
       return this.#y
    }

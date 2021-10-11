@@ -40,18 +40,22 @@ export class Move {
       return this.From.id + '→' + this.To.id
    }
 
+   /** @return {Field} */
    get From () {
       return this.#board_changes[0].field
    }
 
+   /** @return {Field} */
    get To () {
       return this.#board_changes[1].field
    }
 
+   /** @return {Number} */
    get FromValue () {
       return this.#board_changes[0].oldValue
    }
 
+   /** @return {Number} */
    get ToValue () {
       return this.#board_changes[1].oldValue
    }
