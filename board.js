@@ -135,46 +135,53 @@ export class Board {
       this.setField(move.From, FIELD.EMPTY)
       this.setField(move.To, move.FromValue)
 
-      // set availability of castling to false after moving piece from or to a corner
-      if (move.From.column === 0 && move.From.row === 0 || move.To.column === 0 && move.To.row === 0)
-         this.#available_castle.WHITE_LONG = false
-      if (move.From.column === 7 && move.From.row === 0 || move.To.column === 7 && move.To.row === 0)
-         this.#available_castle.WHITE_SHORT = false
-      if (move.From.column === 0 && move.From.row === 7 || move.To.column === 0 && move.To.row === 7)
-         this.#available_castle.BLACK_LONG = false
-      if (move.From.column === 7 && move.From.row === 7 || move.To.column === 7 && move.To.row === 7)
-         this.#available_castle.BLACK_SHORT = false
-
-      // pawn promotion
       if (this.field(move.To) === FIELD.PAWN_WHITE && move.To.row === 7)
          this.setField(move.To, FIELD.QUEEN_WHITE)
 
       if (this.field(move.To) === FIELD.PAWN_BLACK && move.To.row === 0)
          this.setField(move.To, FIELD.QUEEN_BLACK)
 
-      // update king position and castle
-      if (this.field(move.To) === FIELD.KING_WHITE) {
-         this.#available_castle.WHITE_SHORT = false
-         this.#available_castle.WHITE_LONG = false
-
-         // short white castle
+      if (move.FromValue === FIELD.KING_WHITE) {
          if (move.To.column === 6 && move.To.row === 0 && move.From.column === 4 && move.From.row === 0)
             this.applyMove(CASTLE.WHITE_SHORT)
 
-         // long white castle
          if (move.To.column === 2 && move.To.row === 0 && move.From.column === 4 && move.From.row === 0)
             this.applyMove(CASTLE.WHITE_LONG)
-      } else if (this.field(move.To) === FIELD.KING_BLACK) {
-         this.#available_castle.BLACK_LONG = false
-         this.#available_castle.BLACK_SHORT = false
+      }
 
-         // short black castle
+      if (move.FromValue === FIELD.KING_BLACK) {
          if (move.To.column === 6 && move.To.row === 7 && move.From.column === 4 && move.From.row === 7)
             this.applyMove(CASTLE.BLACK_SHORT)
 
-         // long white castle
          if (move.To.column === 2 && move.To.row === 7 && move.From.column === 4 && move.From.row === 7)
             this.applyMove(CASTLE.BLACK_LONG)
+      }
+   }
+
+   /**
+    * @param {Move} move
+    */
+   disableFutureCastlePossibility (move) {
+      if (move.From.column === 0 && move.From.row === 0 || move.To.column === 0 && move.To.row === 0)
+         this.#available_castle.WHITE_LONG = false
+
+      if (move.From.column === 7 && move.From.row === 0 || move.To.column === 7 && move.To.row === 0)
+         this.#available_castle.WHITE_SHORT = false
+
+      if (move.From.column === 0 && move.From.row === 7 || move.To.column === 0 && move.To.row === 7)
+         this.#available_castle.BLACK_LONG = false
+
+      if (move.From.column === 7 && move.From.row === 7 || move.To.column === 7 && move.To.row === 7)
+         this.#available_castle.BLACK_SHORT = false
+
+      if (move.FromValue === FIELD.KING_WHITE) {
+         this.#available_castle.WHITE_SHORT = false
+         this.#available_castle.WHITE_LONG = false
+      }
+
+      if (move.FromValue === FIELD.KING_BLACK) {
+         this.#available_castle.BLACK_LONG = false
+         this.#available_castle.BLACK_SHORT = false
       }
    }
 

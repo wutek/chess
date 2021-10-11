@@ -92,6 +92,7 @@ class Chess {
     */
    applyMoveInGUI (move) {
       this.#board.applyMove(move)
+      this.#board.disableFutureCastlePossibility(move)
       this.#whiteMove = !this.#whiteMove
       this.#clearBoardHighlight()
       this.paint()
