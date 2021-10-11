@@ -184,6 +184,14 @@ export class Board {
    revertMove (move) {
       this.setField(move.To, move.ToValue)
       this.setField(move.From, move.FromValue)
+
+      if (move.FromValue === FIELD.KING_WHITE) {
+         if (move.To.column === 6 && move.To.row === 0 && move.From.column === 4 && move.From.row === 0)
+            this.revertMove(CASTLE.WHITE_SHORT)
+
+         if (move.To.column === 2 && move.To.row === 0 && move.From.column === 4 && move.From.row === 0)
+            this.revertMove(CASTLE.WHITE_LONG)
+      }
    }
 
    /**
