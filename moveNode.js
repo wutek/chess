@@ -103,7 +103,7 @@ export class MoveNode {
             return 9
       }
 
-      if (board.field(move.From) === FIELD.PAWN_BLACK && move.To.Y < 5)
+      if (board.field(move.From) === FIELD.PAWN_BLACK && move.To.column < 5)
          return 0.1
 
       return 0
