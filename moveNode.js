@@ -119,10 +119,9 @@ export class MoveNode {
    }
 
    minMax () {
-      if (this.depth % 2 === 0) {
+      if (this.depth % 2 === 0)
          return this.children.reduce((prev, current) => Math.max(prev, current.value), 0)
-      } else {
+      else
          return this.children.reduce((prev, current) => Math.min(prev, current.value), 0)
-      }
    }
 }

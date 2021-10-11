@@ -8,15 +8,14 @@ onmessage = function (ev) {
    const root_search_tree = new MoveNode(undefined, undefined, b)
    console.timeEnd('AI_move')
 
-   if (root_search_tree.move !== null) {
+   if (root_search_tree.move !== null)
       self.postMessage([
          'moved',
          root_search_tree.move.From.row,
          root_search_tree.move.From.column,
          root_search_tree.move.To.row,
-         root_search_tree.move.To.column
+         root_search_tree.move.To.column,
       ])
-   } else {
+   else
       self.postMessage(['game over'])
-   }
 }

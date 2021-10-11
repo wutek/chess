@@ -80,6 +80,7 @@ export class Board {
          for (let j = 0; j < 8; j++)
             this.#board[i][j] = array[i][j]
       }
+
       Object.assign(this.#available_castle, castle)
    }
 
@@ -147,6 +148,7 @@ export class Board {
       // pawn promotion
       if (this.field(move.To) === FIELD.PAWN_WHITE && move.To.row === 7)
          this.setField(move.To, FIELD.QUEEN_WHITE)
+
       if (this.field(move.To) === FIELD.PAWN_BLACK && move.To.row === 0)
          this.setField(move.To, FIELD.QUEEN_BLACK)
 
@@ -211,6 +213,7 @@ export class Board {
                if (y === 1 && this.#board[x][3] === FIELD.EMPTY)
                   moves.push(new Move(f, f.add(two_up), figure))
             }
+
             for (let m of pawn_attack_moves)
                if (this.getFieldType(f.add(m)) === FIELD_TYPE.BLACK)
                   moves.push(new Move(f, f.add(m), FIELD.PAWN_WHITE, this.field(f.add(m))))
@@ -223,6 +226,7 @@ export class Board {
                if (y === 6 && this.#board[x][4] === FIELD.EMPTY)
                   moves.push(new Move(f, f.add(two_down), figure))
             }
+
             for (let m of black_pawn_attack_moves)
                if (this.getFieldType(f.add(m)) === FIELD_TYPE.WHITE)
                   moves.push(new Move(f, f.add(m), figure, this.field(f.add(m))))
