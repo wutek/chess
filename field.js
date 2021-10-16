@@ -1,10 +1,10 @@
 export class Field {
-   /** @type {Number} */ #x
-   /** @type {Number} */ #y
+   /** @type {number} */ #x
+   /** @type {number} */ #y
 
    /**
-    * @param {Number} column
-    * @param {Number} row
+    * @param {number} column
+    * @param {number} row
     */
    constructor (column, row) {
       this.#x = column
@@ -45,12 +45,12 @@ export class Field {
       return this.id
    }
 
-   /** @return {Number} */
+   /** @return {number} */
    get column () {
       return this.#x
    }
 
-   /** @return {Number} */
+   /** @return {number} */
    get row () {
       return this.#y
    }

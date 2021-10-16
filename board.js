@@ -87,7 +87,7 @@ export class Board {
    /**
     * @param {Field} f
     *
-    * @return {Number}
+    * @return {number}
     **/
    field (f) {
       if (f.column < 0 || f.row < 0 || f.column > 7 || f.row > 7)
@@ -99,7 +99,7 @@ export class Board {
    /**
     * @param {Field} f
     *
-    * @return {Number}
+    * @return {number}
     **/
    getFieldType (f) {
       if (f.column < 0 || f.column > 7 || f.row < 0 || f.row > 7)
@@ -122,7 +122,7 @@ export class Board {
     * Sets value of the field f on the board to the value of n.
     *
     * @param {Field} f
-    * @param {Number} n
+    * @param {number} n
     */
    setField (f, n) {
       this.#board[f.column][f.row] = n
@@ -322,7 +322,7 @@ export class Board {
    /**
     * Returns array of all possible moves for a given color.
     *
-    * @param {Number} color
+    * @param {number} color
     */
    getAllPossibleMoves (color) {
       /** @type Move[] */
@@ -340,8 +340,8 @@ export class Board {
    /**
     * @param {Field} field
     * @param {Move[]} moves
-    * @param {Number} enemy_color
-    * @param {Number} figure
+    * @param {number} enemy_color
+    * @param {number} figure
     * @param {Field[]} DIRECTIONS
     */
    #addMovesInDirection (field, moves, enemy_color, figure, DIRECTIONS) {
@@ -361,7 +361,7 @@ export class Board {
    }
 
    /**
-    * @param {Number} color
+    * @param {number} color
     * @returns {boolean}
     */
    isCheckedBy (color) {
@@ -451,7 +451,7 @@ export class Board {
     * Returns symbol of the first piece
     * @param {Field} field
     * @param {Field} direction
-    * @returns {Number} Symbol of a first figure or EOB.
+    * @returns {number} Symbol of a first figure or EOB.
     */
    #firstNonEmptyField_inDirection (field, direction) {
       const f = field.copy()

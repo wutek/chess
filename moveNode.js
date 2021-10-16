@@ -6,10 +6,10 @@ const MAX_DEPTH = 3
 
 export class MoveNode {
    /** @type {Move} */         move
-   /** @type {Number} */       value
+   /** @type {number} */       value
    /** @type {MoveNode[]} */   children = []
    /** @type {MoveNode} */     parent
-   /** @type {Number} */       depth
+   /** @type {number} */       depth
    /** @type {Board} */        board
 
    /**

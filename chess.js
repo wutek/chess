@@ -127,7 +127,7 @@ class Chess {
    }
 
    /**
-    * @param {Number} field
+    * @param {number} field
     */
    static #figureName (field) {
       switch (field) {
@@ -176,7 +176,7 @@ class Chess {
    }
 
    /**
-    * @param {Number} field
+    * @param {number} field
     */
    static #highlightClass (field) {
       switch (field) {

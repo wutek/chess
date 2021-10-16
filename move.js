@@ -7,8 +7,8 @@ export class Move {
    /**
     * @param {Field} from
     * @param {Field} to
-    * @param {Number} fromValue
-    * @param {Number} toValue
+    * @param {number} fromValue
+    * @param {number} toValue
     * @param {boolean} promotion
     */
    constructor (from, to, fromValue, toValue = FIELD.EMPTY, promotion = false) {
@@ -50,12 +50,12 @@ export class Move {
       return this.#board_changes[1].field
    }
 
-   /** @return {Number} */
+   /** @return {number} */
    get FromValue () {
       return this.#board_changes[0].oldValue
    }
 
-   /** @return {Number} */
+   /** @return {number} */
    get ToValue () {
       return this.#board_changes[1].oldValue
    }
