@@ -40,6 +40,17 @@
       <td class="board_label vertical horizontal"></td>
    </tr>
 </table>
+<fieldset>
+   <legend>Options</legend>
+   <label for="search_depth">Search depth:</label>
+   <select id="search_depth">
+      <option value="1">1</option>
+      <option value="2">2</option>
+      <option value="3" selected>3</option>
+      <option value="4">4</option>
+   </select>
+   <button id="restart_button">NEW GAME</button>
+</fieldset>
 <div id="progress_modal">
    <progress id="ai_move_progress" max="1" value="0"></progress>
 </div>

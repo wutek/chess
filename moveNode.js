@@ -2,8 +2,6 @@ import { FIELD } from './field.js'
 import { Move } from './move.js'
 import { Board, FIELD_TYPE } from './board.js'
 
-const MAX_DEPTH = 3
-
 export class MoveNode {
    /** @type {Move} */         move
    /** @type {number} */       value
@@ -11,6 +9,8 @@ export class MoveNode {
    /** @type {MoveNode} */     parent
    /** @type {number} */       depth
    /** @type {Board} */        board
+
+   static MAX_DEPTH = 3;
 
    /**
     * @param {MoveNode} parent
@@ -27,7 +27,7 @@ export class MoveNode {
          this.value = this.evaluateMove(this.board, this.move)
          this.board.applyMove(this.move)
 
-         if (this.depth < MAX_DEPTH) {
+         if (this.depth < MoveNode.MAX_DEPTH) {
             this.createAllChildren()
             this.value += this.minMax()
          }
@@ -123,5 +123,9 @@ export class MoveNode {
          return this.children.reduce((prev, current) => Math.max(prev, current.value), 0)
       else
          return this.children.reduce((prev, current) => Math.min(prev, current.value), 0)
+   }
+
+   static setSearchDepth (depth) {
+      MoveNode.MAX_DEPTH = depth
    }
 }

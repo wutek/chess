@@ -1,21 +1,25 @@
-import { Board } from './board.js'
+import { Board, FIELD_TYPE } from './board.js'
 import { MoveNode } from './moveNode.js'
 
 onmessage = function (ev) {
-   const b = new Board(ev.data)
+   const board = new Board(ev.data[0])
+   MoveNode.setSearchDepth(ev.data[1])
+   const rootSearchTree = new MoveNode(undefined, undefined, board)
 
-   console.time('AI_move')
-   const root_search_tree = new MoveNode(undefined, undefined, b)
-   console.timeEnd('AI_move')
-
-   if (root_search_tree.move !== null)
+   if (rootSearchTree.move !== null)
       self.postMessage([
          'moved',
-         root_search_tree.move.From.row,
-         root_search_tree.move.From.column,
-         root_search_tree.move.To.row,
-         root_search_tree.move.To.column,
+         rootSearchTree.move.From.row,
+         rootSearchTree.move.From.column,
+         rootSearchTree.move.To.row,
+         rootSearchTree.move.To.column,
       ])
-   else
-      self.postMessage(['game over'])
+
+   if (rootSearchTree.move === null) {
+      const messageTxt = board.isCheckedBy(FIELD_TYPE.WHITE)
+         ? 'Wygrałeś!'
+         : 'Remis'
+
+      self.postMessage(['game over', messageTxt])
+   }
 }

@@ -1,11 +1,15 @@
 import { ALL_FIELDS, FIELD, Field } from './field.js'
 import { Move } from './move.js'
 import { FIELD_TYPE, HIGHLIGHT, NO_HIGHLIGHT, STARTING_BOARD } from './board.js'
+import { MoveNode } from './moveNode.js'
 
 class Chess {
    /** @type {Board}  */    #board
    /** @type {Board} */     #boardHighlight
    /** @type {Boolean} */   #whiteMove = true
+   progressModal = document.getElementById('progress_modal')
+   progressBar = document.getElementById('ai_move_progress')
+   boardTable = document.getElementById('chess_board')
 
    constructor () {
       this.#board = STARTING_BOARD.copy()
@@ -47,44 +51,48 @@ class Chess {
 
    AIMove () {
       const worker = new Worker('AI_worker.js', { type: 'module' })
-      const progressModal = document.getElementById('progress_modal')
-      const progressBar = document.getElementById('ai_move_progress')
-      const boardTable = document.getElementById('chess_board')
 
-      progressBar.value = 0
-      progressModal.style.display = 'block'
-      boardTable.style.cursor = 'wait'
-      progressBar.style.cursor = 'wait'
+      this.progressBar.value = 0
+      this.progressModal.style.display = 'block'
+      this.boardTable.style.cursor = 'wait'
+      this.progressModal.style.cursor = 'wait'
 
       const that = this
 
       worker.onmessage = function (event) {
-         if (event.data[0] === 'progressUpdate')
-            progressBar.value = event.data[1]
+         switch (event.data[0]) {
+            case 'progressUpdate':
+               that.progressBar.value = event.data[1]
+               break
 
-         if (event.data[0] === 'moved') {
-            const from = new Field(event.data[2], event.data[1])
-            const to = new Field(event.data[4], event.data[3])
-            const from_value = that.#board.field(from)
-            const to_value = that.#board.field(to)
-            const move = new Move(from, to, from_value, to_value)
+            case 'moved':
+               const from = new Field(event.data[2], event.data[1])
+               const to = new Field(event.data[4], event.data[3])
+               const from_value = that.#board.field(from)
+               const to_value = that.#board.field(to)
+               const move = new Move(from, to, from_value, to_value)
 
-            that.applyMoveInGUI(move)
+               that.applyMoveInGUI(move)
 
-            progressModal.style.display = 'none'
-            boardTable.style.cursor = 'default'
+               that.progressModal.style.display = 'none'
+               that.boardTable.style.cursor = 'default'
 
-            worker.terminate()
-         }
+               worker.terminate()
+               break
 
-         if (event.data[0] === 'game over') {
-            progressModal.innerHTML = 'Koniec gry: ' + event.data[0]
-            boardTable.style.cursor = 'default'
+            case 'game over':
+               that.progressModal.innerHTML = event.data[1]
+               that.boardTable.style.cursor = 'default'
+               that.progressModal.style.cursor = 'default'
+               break
          }
       }
 
       worker.onerror = () => { }
-      worker.postMessage(this.#board.Array)
+      worker.postMessage([
+         this.#board.Array,
+         MoveNode.MAX_DEPTH
+      ])
    }
 
    /**
@@ -191,6 +199,14 @@ class Chess {
       }
    }
 
+   restart () {
+      this.#board = STARTING_BOARD.copy()
+      this.#boardHighlight = NO_HIGHLIGHT.copy()
+      this.progressModal.style.display = 'none'
+      this.boardTable.style.cursor = 'default'
+      this.paint()
+   }
+
    /**
     * @param {Field} f
     */
@@ -217,3 +233,13 @@ for (const f of ALL_FIELDS) {
       chess.handleClickOnField(f)
    })
 }
+
+const restartButton = document.getElementById('restart_button')
+restartButton?.addEventListener('click', () => {
+   chess.restart()
+})
+
+const selectSearchDepth = document.getElementById('search_depth')
+selectSearchDepth?.addEventListener('change', (e) => {
+   MoveNode.setSearchDepth(parseInt(e.target.value))
+})
